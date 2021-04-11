@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hw-api1
+  labels:
+    app: hw
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      name: hw
+  template:
+    metadata:
+      labels:
+        name: hw
+    spec:
+      containers:
+        - name: api
+          image: yegemberdin/hw-api1
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 90
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 80
+            periodSeconds: 10
